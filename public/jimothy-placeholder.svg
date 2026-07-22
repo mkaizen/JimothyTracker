@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360">
+  <rect width="480" height="360" fill="#2e2921"/>
+  <text x="50%" y="46%" font-family="system-ui, sans-serif" font-size="120"
+        text-anchor="middle" dominant-baseline="middle">🦝</text>
+  <text x="50%" y="72%" font-family="system-ui, sans-serif" font-size="22" fill="#b3a894"
+        text-anchor="middle">Jimothy (demo photo)</text>
+</svg>

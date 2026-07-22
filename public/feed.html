@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimothy Feed 🦝 — Sightings of Seattle's Raccoon</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🦝 Jimothy Tracker</h1>
+    <nav class="nav">
+      <a href="/">Map</a>
+      <a href="/feed" class="active">Feed</a>
+    </nav>
+    <p class="tagline">Every photo &amp; video of Jimothy people have shared.</p>
+    <a href="/" class="btn-primary">+ Report a sighting</a>
+  </header>
+
+  <main class="feed-main">
+    <div class="feed-toolbar">
+      <span id="feed-count" class="count"></span>
+      <label class="filter">
+        <input type="checkbox" id="videos-only" /> Videos only
+      </label>
+    </div>
+    <div id="feed-grid" class="feed-grid"></div>
+    <p id="feed-empty" class="feed-empty hidden">
+      No media yet. Report a sighting with a photo, or run
+      <code>npm run ingest</code> to pull in social posts.
+    </p>
+  </main>
+
+  <script src="/feed.js"></script>
+</body>
+</html>
