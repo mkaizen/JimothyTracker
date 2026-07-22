@@ -207,27 +207,37 @@ main {
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
-  display: block; /* avoid flex container inside card so image height is natural */
-  width: min(900px, 96%);
+  display: block;
+  width: min(760px, 96%);
+  max-width: 760px;
+  /* normalize overall card height so cards align visually like Reddit */
+  height: 560px; /* fixed card height for consistent layout */
 }
 .feed-media {
-  position: relative; /* ensure absolute children are positioned inside the media box */
+  position: relative; /* anchor play-badge inside media */
   display: block;
   background: var(--panel-2);
   line-height: 0;
   width: 100%;
   overflow: hidden;
+  /* normalized preview area similar to common feed conventions */
+  height: 360px;
 }
-/* preserve natural aspect ratio and show images at full width */
+/* images fill and are cropped to the preview area like Reddit-style previews */
 .feed-media img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover; /* crop to fill the box */
   margin: 0;
 }
-/* keep feed body styling separate */
-.feed-body { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+/* feed body: fixed area below media; scroll internally if content overflows */
+.feed-body {
+  padding: 0.75rem;
+  box-sizing: border-box;
+  height: calc(560px - 360px);
+  overflow-y: auto;
+}
 
 .media-broken .feed-media { display: none; } /* hide cards whose image 404s */
 
