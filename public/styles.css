@@ -192,13 +192,13 @@ main {
 .filter { color: var(--muted); font-size: 0.9rem; cursor: pointer; }
 .filter input { vertical-align: middle; margin-right: 0.3rem; }
 
-/* Horizontal, scrollable feed with larger media cards */
+/* Vertical, centered feed with responsive media */
 .feed-grid {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
-  overflow-x: auto;
+  align-items: center;
   padding-bottom: 0.5rem;
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
 .feed-card {
@@ -208,24 +208,24 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* make cards a reasonable, consistent size and prevent shrinking */
-  flex: 0 0 min(84vw, 480px);
-  scroll-snap-align: start;
+  width: min(720px, 94%);
+  max-width: 720px;
 }
 .feed-media {
   position: relative;
   display: block;
   background: var(--panel-2);
   line-height: 0;
-  height: 360px; /* fixed height so media appears large and consistent */
+  height: clamp(280px, 40vh, 640px); /* flexible, responsive media height */
+  width: 100%;
   overflow: hidden;
 }
 .feed-media img {
-  width: auto;
+  width: 100%;
   height: 100%;
-  max-width: none;
   object-fit: cover;
   display: block;
+  max-width: none;
 }
 .media-broken .feed-media { display: none; } /* hide cards whose image 404s */
 
