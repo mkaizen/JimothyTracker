@@ -192,12 +192,12 @@ main {
 .filter { color: var(--muted); font-size: 0.9rem; cursor: pointer; }
 .filter input { vertical-align: middle; margin-right: 0.3rem; }
 
-/* Vertical, centered feed with responsive media */
+/* Grid feed: 3 columns by default, responsive down to 1-2 columns */
 .feed-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  align-items: center;
+  justify-content: center;
   padding-bottom: 0.5rem;
   -webkit-overflow-scrolling: touch;
 }
@@ -208,15 +208,14 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  width: min(720px, 94%);
-  max-width: 720px;
+  width: 100%;
 }
 .feed-media {
   position: relative;
   display: block;
   background: var(--panel-2);
   line-height: 0;
-  height: clamp(280px, 40vh, 640px); /* flexible, responsive media height */
+  height: clamp(160px, 22vh, 320px); /* compact but flexible media height */
   width: 100%;
   overflow: hidden;
 }
@@ -226,6 +225,12 @@ main {
   object-fit: cover;
   display: block;
   max-width: none;
+}
+@media (max-width: 900px) {
+  .feed-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .feed-grid { grid-template-columns: 1fr; }
 }
 .media-broken .feed-media { display: none; } /* hide cards whose image 404s */
 
@@ -261,6 +266,8 @@ main {
 
 .feed-empty { color: var(--muted); text-align: center; margin-top: 3rem; }
 .feed-empty code { background: var(--panel-2); padding: 0.1rem 0.35rem; border-radius: 4px; }
+
+.feed-load-more { width: 100%; display: flex; justify-content: center; padding: 0.75rem 0; }
 
 /* Video marker in map popup */
 .popup-media { position: relative; }

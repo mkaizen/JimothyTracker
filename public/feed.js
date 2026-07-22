@@ -1,16 +1,44 @@
 let all = [];
+let visibleCount = 12; // show a 3x4 grid initially
+const BATCH = 12;
 
 init();
 
 async function init() {
-  document.getElementById('videos-only').addEventListener('change', render);
+  // reset visible count when toggling filter
+  document.getElementById('videos-only').addEventListener('change', () => { visibleCount = BATCH; render(); });
+
+  // load feed then render
   all = await fetch('/api/feed').then((r) => r.json());
   render();
+
+  // infinite scroll: load more as the user scrolls the feed container
+  const feedMain = document.querySelector('.feed-main');
+  if (feedMain) {
+    feedMain.addEventListener('scroll', onScroll, { passive: true });
+  }
+}
+
+function onScroll() {
+  const el = document.querySelector('.feed-main');
+  if (!el) return;
+  // when near bottom, increase visible window
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 200) {
+    const items = getFilteredItems();
+    if (visibleCount < items.length) {
+      visibleCount = Math.min(items.length, visibleCount + BATCH);
+      render();
+    }
+  }
+}
+
+function getFilteredItems() {
+  const videosOnly = document.getElementById('videos-only').checked;
+  return all.filter((s) => !videosOnly || s.media_type === 'video');
 }
 
 function render() {
-  const videosOnly = document.getElementById('videos-only').checked;
-  const items = all.filter((s) => !videosOnly || s.media_type === 'video');
+  const items = getFilteredItems();
 
   const grid = document.getElementById('feed-grid');
   const empty = document.getElementById('feed-empty');
@@ -20,7 +48,22 @@ function render() {
   grid.innerHTML = '';
   empty.classList.toggle('hidden', items.length > 0);
 
-  for (const s of items) grid.appendChild(card(s));
+  const count = Math.min(visibleCount, items.length);
+  for (let i = 0; i < count; i++) grid.appendChild(card(items[i]));
+
+  // show a small load-more affordance if there are more items
+  if (items.length > count) {
+    const more = document.createElement('div');
+    more.className = 'feed-load-more';
+    more.innerHTML = `<button id="load-more-btn" class="btn-primary">Load more</button>`;
+    grid.appendChild(more);
+    document.getElementById('load-more-btn').addEventListener('click', () => {
+      visibleCount = Math.min(items.length, visibleCount + BATCH);
+      render();
+      // keep focus on content
+      document.querySelector('.feed-grid').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 }
 
 function card(s) {
