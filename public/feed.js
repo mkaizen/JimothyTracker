@@ -1,6 +1,6 @@
 let all = [];
-let visibleCount = 10;
-const BATCH = 10;
+let visibleCount = 12; // show a 3x4 grid initially
+const BATCH = 12;
 
 init();
 
