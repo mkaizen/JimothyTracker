@@ -5,12 +5,11 @@ let markers = L.layerGroup();
 let pickMarker = null;       // the pin the user drops while reporting
 let picked = null;           // { lat, lng } chosen on the map
 
-const raccoonIcon = L.divIcon({
-  html: '<div class="raccoon-pin">🦝</div>',
-  className: 'raccoon-icon',
-  iconSize: [30, 30],
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -28],
+const raccoonIcon = L.icon({
+  iconUrl: '/jimothy-pin.svg',
+  iconSize: [44, 54],
+  iconAnchor: [22, 52],   // tip of the pin
+  popupAnchor: [0, -48],
 });
 
 init();

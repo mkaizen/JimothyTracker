@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46" height="56" viewBox="0 0 46 56">
+  <!-- teardrop pin; the raccoon head is the round top -->
+  <path d="M23 55 C23 55 7 34 7 21 A16 16 0 1 1 39 21 C39 34 23 55 23 55 Z"
+        fill="#d7dbe0" stroke="#26262a" stroke-width="1.6" stroke-linejoin="round"/>
+  <!-- ears -->
+  <circle cx="12.5" cy="10" r="4.8" fill="#d7dbe0" stroke="#26262a" stroke-width="1.4"/>
+  <circle cx="33.5" cy="10" r="4.8" fill="#d7dbe0" stroke="#26262a" stroke-width="1.4"/>
+  <circle cx="12.5" cy="10.3" r="2.1" fill="#3a3a40"/>
+  <circle cx="33.5" cy="10.3" r="2.1" fill="#3a3a40"/>
+  <!-- black bandit mask: two overlapping dark patches over the eyes -->
+  <ellipse cx="16" cy="19" rx="7" ry="5.2" fill="#26262a"/>
+  <ellipse cx="30" cy="19" rx="7" ry="5.2" fill="#26262a"/>
+  <!-- pale blaze splitting the mask down the middle (the raccoon tell) -->
+  <path d="M23 9 C25.5 13 25.5 20 24.5 25 L21.5 25 C20.5 20 20.5 13 23 9 Z" fill="#d7dbe0"/>
+  <!-- eyes sitting inside the mask -->
+  <circle cx="15.5" cy="19" r="2.2" fill="#fdfdfd"/>
+  <circle cx="30.5" cy="19" r="2.2" fill="#fdfdfd"/>
+  <circle cx="15.6" cy="19.2" r="1.1" fill="#111111"/>
+  <circle cx="30.4" cy="19.2" r="1.1" fill="#111111"/>
+  <!-- pale pointed muzzle -->
+  <path d="M23 24 C27.5 26 27 33 23 36 C19 33 18.5 26 23 24 Z" fill="#eef0f2"/>
+  <!-- nose -->
+  <path d="M23 28 C25.2 28.6 25.2 31 23 32 C20.8 31 20.8 28.6 23 28 Z" fill="#26262a"/>
+</svg>

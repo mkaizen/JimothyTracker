@@ -261,13 +261,7 @@ main {
 }
 
 /* Raccoon map pin */
-.raccoon-icon { background: none; border: none; }
-.raccoon-pin {
-  font-size: 24px;
-  line-height: 1;
-  text-align: center;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
-}
+.leaflet-marker-icon { filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45)); }
 
 /* Leaflet popup tweaks */
 .leaflet-popup-content { font-size: 0.85rem; }
