@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '1mb' })); // ingest batches are small, but give headroom
 app.use(express.static(join(__dirname, 'public')));
 app.use('/uploads', express.static(UPLOAD_DIR));
 
@@ -52,6 +52,51 @@ app.get('/api/feed', (_req, res) => {
 
 app.get('/feed', (_req, res) => {
   res.sendFile(join(__dirname, 'public', 'feed.html'));
+});
+
+/**
+ * Ingest endpoint for the off-server scraper (e.g. your home PC). The scraper
+ * does the geocoding and POSTs finished sightings here so the server just
+ * stores them. Protected by a shared secret in the INGEST_TOKEN env var; if
+ * that isn't set, the endpoint is disabled entirely.
+ *
+ * POST JSON: { "sightings": [ { seen_at, source, source_ref, lat?, lng?,
+ *   notes?, photo_url?, media_type?, reporter?, source_url?, location_note? } ] }
+ * Header:    X-Ingest-Token: <secret>
+ */
+app.post('/api/ingest', (req, res) => {
+  const secret = process.env.INGEST_TOKEN;
+  if (!secret) return res.status(503).json({ error: 'Ingest disabled: INGEST_TOKEN not set on server.' });
+  if (req.get('X-Ingest-Token') !== secret) return res.status(401).json({ error: 'Invalid ingest token.' });
+
+  const sightings = Array.isArray(req.body?.sightings) ? req.body.sightings : null;
+  if (!sightings) return res.status(400).json({ error: 'Body must be { sightings: [...] }.' });
+
+  let added = 0, duplicates = 0, invalid = 0;
+  for (const s of sightings) {
+    if (!s || typeof s.seen_at !== 'string' || !s.source || !s.source_ref) { invalid++; continue; }
+
+    const lat = Number.isFinite(s.lat) ? s.lat : null;
+    const lng = Number.isFinite(s.lng) ? s.lng : null;
+    const mapped = lat != null && lng != null && inSeattle(lat, lng);
+
+    const id = addSighting({
+      lat: mapped ? lat : null,
+      lng: mapped ? lng : null,
+      seen_at: s.seen_at,
+      notes: typeof s.notes === 'string' ? s.notes.slice(0, 500) : null,
+      photo_url: typeof s.photo_url === 'string' ? s.photo_url : null,
+      media_type: s.media_type === 'video' ? 'video' : 'image',
+      reporter: typeof s.reporter === 'string' ? s.reporter.slice(0, 120) : null,
+      source: String(s.source).slice(0, 40),
+      source_url: typeof s.source_url === 'string' ? s.source_url : null,
+      source_ref: String(s.source_ref).slice(0, 200),
+      location_note: mapped ? (s.location_note || 'geocode') : 'feed-only',
+    });
+    if (id) added++; else duplicates++;
+  }
+
+  res.json({ received: sightings.length, added, duplicates, invalid });
 });
 
 /**

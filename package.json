@@ -9,7 +9,8 @@
     "dev": "node --watch server.js",
     "seed": "node scripts/seed.js",
     "setup": "playwright install chromium",
-    "ingest": "node --env-file-if-exists=.env scripts/ingest.js"
+    "ingest": "node --env-file-if-exists=.env scripts/ingest.js",
+    "ingest:remote": "node --env-file-if-exists=.env scripts/ingest-remote.js"
   },
   "license": "MIT",
   "dependencies": {

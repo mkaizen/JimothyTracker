@@ -15,7 +15,7 @@ $node = (Get-Command node).Source
 
 $action = New-ScheduledTaskAction `
     -Execute $node `
-    -Argument "--env-file-if-exists=.env scripts\ingest.js reddit" `
+    -Argument "--env-file-if-exists=.env scripts\ingest-remote.js reddit" `
     -WorkingDirectory $projectRoot
 
 # Two triggers a day. Adjust the times if you like.

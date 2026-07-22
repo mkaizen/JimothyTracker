@@ -126,6 +126,40 @@ Tune `REDDIT_SUBREDDITS`, `REDDIT_QUERY`, `REDDIT_LIMIT` via `.env`
 > (e.g. "spotted at Green Lake") geocodes inside Seattle; otherwise it's
 > skipped. Most Jimothy posts are fan art / news with no location.
 
+### Feeding a deployed site (scraper on your PC → live server)
+
+Shared hosting can't run Chromium, so the scraper stays on your PC and POSTs
+finished sightings to the live site. Your PC does the geocoding; the server
+just stores what it receives via a token-protected `POST /api/ingest`.
+
+**1. Pick a shared secret** (used on both ends):
+
+```bash
+node -e "console.log(require('crypto').randomBytes(24).toString('hex'))"
+```
+
+**2. On the server** — set it as an environment variable so the endpoint turns
+on (without `INGEST_TOKEN` the endpoint returns 503 and ingest is disabled). In
+cPanel → *Setup Node.js App* → your app → **Environment variables**, add
+`INGEST_TOKEN` = the secret, then **Restart**.
+
+**3. On your PC** — put the matching values in `.env`:
+
+```
+INGEST_URL=https://yourdomain.com/api/ingest
+INGEST_TOKEN=the-same-secret
+```
+
+**4. Run it:**
+
+```bash
+npm run setup          # once, downloads Chromium
+npm run ingest:remote  # scrape → geocode → POST to the live site
+```
+
+The server replies with `{ received, added, duplicates, invalid }`. Re-runs are
+safe — duplicates are ignored by `(source, source_ref)`.
+
 ### Run it twice a day (Windows)
 
 ```bash
@@ -133,12 +167,17 @@ npm run setup   # once
 powershell -ExecutionPolicy Bypass -File scripts\schedule-windows.ps1
 ```
 
-That registers a **Task Scheduler** job ("JimothyTracker Ingest") that runs the
-Reddit scraper at 8 AM and 8 PM daily. Edit the times in the script if you like;
-remove it with `Unregister-ScheduledTask -TaskName "JimothyTracker Ingest"`.
+That registers a **Task Scheduler** job ("JimothyTracker Ingest") that runs
+`ingest:remote` at 8 AM and 8 PM daily. Edit the times in the script if you
+like; remove it with `Unregister-ScheduledTask -TaskName "JimothyTracker Ingest"`.
 
-Add more providers (Bluesky, Mastodon) the same way and `scripts/ingest.js`
-picks them up automatically.
+> `scripts/ingest.js` (local, writes straight to a local DB) still exists for
+> development; `scripts/ingest-remote.js` is the one that feeds a deployed site.
+> Add more providers (Bluesky, Mastodon) and both pick them up automatically.
+
+> **Note:** `playwright` is only used by the scraper on your PC — the running
+> server never imports it. To stop the server's `npm install` from downloading
+> Chromium, set `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` in its environment.
 
 ## API
 
@@ -148,6 +187,7 @@ picks them up automatically.
 | GET    | `/api/sightings`  | List sightings (`?since=&until=` ISO, `?has_media=1`) |
 | GET    | `/api/feed`       | Sightings that have an image/video, newest first |
 | POST   | `/api/sightings`  | Report a sighting (multipart/form-data)        |
+| POST   | `/api/ingest`     | Bulk ingest from the scraper (`X-Ingest-Token` header) |
 
 Pages: `/` (map) and `/feed` (media feed).
 
@@ -158,8 +198,10 @@ server.js            Express app + routes
 db.js                node:sqlite schema & queries
 lib/geo.js           EXIF extraction, geocoding, Seattle bounds
 lib/ingest.js        pluggable social-post ingestion pipeline
+lib/providers/       scraper providers (reddit.js)
 scripts/seed.js      demo data
-scripts/ingest.js    ingestion runner
+scripts/ingest.js    local ingestion runner (writes to a local DB)
+scripts/ingest-remote.js  scrape → POST to a deployed site's /api/ingest
 public/              Frontend
   index.html/app.js    Leaflet map
   feed.html/feed.js    media feed
