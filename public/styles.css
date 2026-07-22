@@ -193,6 +193,7 @@ main {
 .filter input { vertical-align: middle; margin-right: 0.3rem; }
 
 /* Single-column infinite scroll feed: centered, full-media width */
+.feed-main { display: block; } /* override global main:flex to allow natural scrolling */
 .feed-grid {
   display: flex;
   flex-direction: column;
@@ -206,31 +207,27 @@ main {
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  display: block; /* avoid flex container inside card so image height is natural */
   width: min(900px, 96%);
 }
 .feed-media {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   background: var(--panel-2);
   line-height: 0;
   width: 100%;
-  max-height: 75vh; /* prevent overly short or tall media */
   overflow: hidden;
 }
-/* preserve natural aspect ratio and constrain to container */
+/* preserve natural aspect ratio and show images at full width */
 .feed-media img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
+  width: 100%;
   height: auto;
-  object-fit: contain;
   display: block;
-  margin: 0 auto;
+  object-fit: contain;
+  margin: 0;
 }
+/* keep feed body styling separate */
+.feed-body { padding: 0.75rem; display: block; }
+
 .feed-body { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
 
 .media-broken .feed-media { display: none; } /* hide cards whose image 404s */
