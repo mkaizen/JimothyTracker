@@ -13,18 +13,32 @@ async function init() {
   all = await fetch('/api/feed').then((r) => r.json());
   render();
 
-  // infinite scroll: load more as the user scrolls the feed container
+  // infinite scroll: listen on the feed container and fall back to window scroll
   const feedMain = document.querySelector('.feed-main');
   if (feedMain) {
     feedMain.addEventListener('scroll', onScroll, { passive: true });
   }
+  // fallback: some setups scroll the window instead of the feed container
+  window.addEventListener('scroll', onScroll, { passive: true });
 }
 
 function onScroll() {
-  const el = document.querySelector('.feed-main');
-  if (!el) return;
+  const feedMain = document.querySelector('.feed-main');
+  let scrollTop, clientHeight, scrollHeight;
+
+  if (feedMain && feedMain.scrollHeight > feedMain.clientHeight) {
+    scrollTop = feedMain.scrollTop;
+    clientHeight = feedMain.clientHeight;
+    scrollHeight = feedMain.scrollHeight;
+  } else {
+    // fallback to document/window scroll
+    scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+    clientHeight = window.innerHeight;
+    scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+  }
+
   // when near bottom, increase visible window
-  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 200) {
+  if (scrollTop + clientHeight >= scrollHeight - 200) {
     const items = getFilteredItems();
     if (visibleCount < items.length) {
       visibleCount = Math.min(items.length, visibleCount + BATCH);

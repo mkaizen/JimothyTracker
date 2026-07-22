@@ -212,19 +212,24 @@ main {
 }
 .feed-media {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--panel-2);
   line-height: 0;
   width: 100%;
+  max-height: 75vh; /* prevent overly short or tall media */
   overflow: hidden;
 }
-/* show media at full width while preserving aspect ratio */
+/* preserve natural aspect ratio and constrain to container */
 .feed-media img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
   height: auto;
   object-fit: contain;
   display: block;
-  max-width: none;
+  margin: 0 auto;
 }
 .feed-body { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
 
