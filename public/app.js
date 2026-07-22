@@ -7,9 +7,9 @@ let picked = null;           // { lat, lng } chosen on the map
 
 const raccoonIcon = L.icon({
   iconUrl: '/jimothy-pin.svg',
-  iconSize: [44, 54],
-  iconAnchor: [22, 52],   // tip of the pin
-  popupAnchor: [0, -48],
+  iconSize: [52, 39],
+  iconAnchor: [26, 36],   // roughly Jimothy's feet, on the spot
+  popupAnchor: [0, -30],
 });
 
 init();

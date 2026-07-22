@@ -1,24 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="46" height="56" viewBox="0 0 46 56">
-  <!-- teardrop pin; the raccoon head is the round top -->
-  <path d="M23 55 C23 55 7 34 7 21 A16 16 0 1 1 39 21 C39 34 23 55 23 55 Z"
-        fill="#d7dbe0" stroke="#26262a" stroke-width="1.6" stroke-linejoin="round"/>
-  <!-- ears -->
-  <circle cx="12.5" cy="10" r="4.8" fill="#d7dbe0" stroke="#26262a" stroke-width="1.4"/>
-  <circle cx="33.5" cy="10" r="4.8" fill="#d7dbe0" stroke="#26262a" stroke-width="1.4"/>
-  <circle cx="12.5" cy="10.3" r="2.1" fill="#3a3a40"/>
-  <circle cx="33.5" cy="10.3" r="2.1" fill="#3a3a40"/>
-  <!-- black bandit mask: two overlapping dark patches over the eyes -->
-  <ellipse cx="16" cy="19" rx="7" ry="5.2" fill="#26262a"/>
-  <ellipse cx="30" cy="19" rx="7" ry="5.2" fill="#26262a"/>
-  <!-- pale blaze splitting the mask down the middle (the raccoon tell) -->
-  <path d="M23 9 C25.5 13 25.5 20 24.5 25 L21.5 25 C20.5 20 20.5 13 23 9 Z" fill="#d7dbe0"/>
-  <!-- eyes sitting inside the mask -->
-  <circle cx="15.5" cy="19" r="2.2" fill="#fdfdfd"/>
-  <circle cx="30.5" cy="19" r="2.2" fill="#fdfdfd"/>
-  <circle cx="15.6" cy="19.2" r="1.1" fill="#111111"/>
-  <circle cx="30.4" cy="19.2" r="1.1" fill="#111111"/>
-  <!-- pale pointed muzzle -->
-  <path d="M23 24 C27.5 26 27 33 23 36 C19 33 18.5 26 23 24 Z" fill="#eef0f2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" viewBox="0 0 64 48">
+  <!-- legs -->
+  <g fill="#3a3a40">
+    <rect x="23" y="30" width="4.5" height="13" rx="2.2"/>
+    <rect x="31" y="31" width="4.5" height="12" rx="2.2"/>
+    <rect x="42" y="31" width="4.5" height="12" rx="2.2"/>
+    <rect x="49" y="30" width="4.5" height="13" rx="2.2"/>
+  </g>
+  <!-- bushy ringed tail -->
+  <path d="M24 28 C11 30 2 24 2 14 C2 7 8 3 13 6 C18 9 20 18 25 28 Z" fill="#8b9096"/>
+  <path d="M2 13 C2 8 5 5 9 5 C7 8 6 11 8 14 C5 15 3 15 2 13 Z" fill="#2a2a2e"/>
+  <path d="M6 18 C8 15 11 15 13 18 L11 21 C9 18 7 18 5 20 Z" fill="#2a2a2e"/>
+  <path d="M12 23 C14 20 17 21 19 24 L17 27 C15 24 14 24 12 26 Z" fill="#2a2a2e"/>
+  <!-- arched body -->
+  <path d="M16 32 C16 20 24 15 35 15 C47 15 54 21 54 30 C54 34 50 35 46 35 L23 35 C18 35 16 34 16 32 Z" fill="#8b9096"/>
+  <!-- head + snout -->
+  <path d="M48 21 C56 20 61 25 62 30 C62 32 60 33 57 32 L51 31 C48 29 47 25 48 21 Z" fill="#8b9096"/>
+  <!-- rounded ear -->
+  <path d="M46 20 C46.5 13 49.5 11 51.5 13 C53 15 53.5 17 54 19 C51 20 48 20 46 20 Z" fill="#8b9096"/>
+  <path d="M48 18.5 C48.5 15 50 14 51 15 C51.8 16 52 17.5 52.2 18.5 C50.5 19 49 19 48 18.5 Z" fill="#3a3a40"/>
+  <!-- face mask -->
+  <path d="M50 22 C55 21 59 23 60 27 C57 28 52 27 50 25 Z" fill="#2a2a2e"/>
+  <!-- light muzzle -->
+  <path d="M58 28 C61 28 62 29 62 30 C62 32 60 33 57 32 C56.5 31 57 29 58 28 Z" fill="#e8eaed"/>
   <!-- nose -->
-  <path d="M23 28 C25.2 28.6 25.2 31 23 32 C20.8 31 20.8 28.6 23 28 Z" fill="#26262a"/>
+  <circle cx="61" cy="30" r="1.6" fill="#1c1c1e"/>
+  <!-- eye -->
+  <circle cx="53.5" cy="24" r="1.3" fill="#f0f0f0"/>
 </svg>
