@@ -1,12 +1,13 @@
 let all = [];
-let visibleCount = 6; // initial 3x2 grid (6 items)
-const BATCH = 6;
+const INITIAL = 3; // initial visible posts
+let visibleCount = INITIAL;
+const BATCH = 1; // infinite scroll adds one at a time
 
 init();
 
 async function init() {
   // reset visible count when toggling filter
-  document.getElementById('videos-only').addEventListener('change', () => { visibleCount = BATCH; render(); });
+  document.getElementById('videos-only').addEventListener('change', () => { visibleCount = INITIAL; render(); });
 
   // load feed then render
   all = await fetch('/api/feed').then((r) => r.json());
@@ -51,19 +52,6 @@ function render() {
   const count = Math.min(visibleCount, items.length);
   for (let i = 0; i < count; i++) grid.appendChild(card(items[i]));
 
-  // show a small load-more affordance if there are more items
-  if (items.length > count) {
-    const more = document.createElement('div');
-    more.className = 'feed-load-more';
-    more.innerHTML = `<button id="load-more-btn" class="btn-primary">Load more</button>`;
-    grid.appendChild(more);
-    document.getElementById('load-more-btn').addEventListener('click', () => {
-      visibleCount = Math.min(items.length, visibleCount + BATCH);
-      render();
-      // keep focus on content
-      document.querySelector('.feed-grid').scrollIntoView({ behavior: 'smooth' });
-    });
-  }
 }
 
 function card(s) {
