@@ -1,0 +1,21 @@
+{
+  "name": "jimothy-tracker",
+  "version": "0.1.0",
+  "description": "A community map of Jimothy the Seattle raccoon sightings.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node scripts/seed.js",
+    "setup": "playwright install chromium",
+    "ingest": "node --env-file-if-exists=.env scripts/ingest.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "exifr": "^7.1.3",
+    "express": "^4.21.2",
+    "multer": "^2.2.0",
+    "playwright": "^1.61.1"
+  }
+}
