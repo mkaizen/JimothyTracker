@@ -211,6 +211,7 @@ main {
   width: min(900px, 96%);
 }
 .feed-media {
+  position: relative; /* ensure absolute children are positioned inside the media box */
   display: block;
   background: var(--panel-2);
   line-height: 0;
@@ -226,8 +227,6 @@ main {
   margin: 0;
 }
 /* keep feed body styling separate */
-.feed-body { padding: 0.75rem; display: block; }
-
 .feed-body { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
 
 .media-broken .feed-media { display: none; } /* hide cards whose image 404s */
@@ -243,6 +242,8 @@ main {
   border-radius: 50%;
   font-size: 1.2rem;
   padding-left: 4px;
+  z-index: 20; /* sit above media */
+  pointer-events: none; /* let clicks pass through to the link */
 }
 .src-badge {
   position: absolute;
