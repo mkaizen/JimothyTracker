@@ -18,6 +18,8 @@ html, body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   background: var(--bg);
   color: var(--ink);
+  display: flex;
+  flex-direction: column;
 }
 
 .topbar {
@@ -57,7 +59,8 @@ html, body {
 
 main {
   display: flex;
-  height: calc(100vh - 64px);
+  flex: 1;
+  height: auto;
 }
 #map { flex: 1; height: 100%; }
 
@@ -289,6 +292,15 @@ main {
 /* Raccoon map pin */
 .leaflet-marker-icon { filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45)); }
 
-/* Leaflet popup tweaks */
-.leaflet-popup-content { font-size: 0.85rem; }
-.leaflet-popup-content img { width: 100%; border-radius: 6px; margin-top: 0.4rem; }
+/* Footer */
+.footer {
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+.footer p { margin: 0; }
+
